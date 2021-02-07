@@ -13,23 +13,43 @@ namespace QuickSort
 
         public void Sort(List<T> list, int start, int end)
         {
+            if ((end - start) < 1)
+            {
+                return;
+            }
+
             T pivot = list[start];
-            int left = -1;
-            int right = list.Count;
+            int left = start - 1;
+            int right = end + 1;
 
-            while(list[left].CompareTo(pivot) >= 0)
+            while (true)
             {
-                left++;
+                do
+                {
+                    left++;
+                } while (list[left].CompareTo(pivot) < 0);
+
+                do
+                {
+                    right--;
+                } while (list[right].CompareTo(pivot) > 0);
+
+                if(left >= right)
+                {
+                    break;
+                }
+
+                T temp = list[left];
+                list[left] = list[right];
+                list[right] = temp;
             }
 
-            while(list[right].CompareTo(pivot) <= 0)
-            {
-                right++;
-            }
+            //sort left subarray
+            Sort(list, start, right);
 
-            T temp = list[left];
-            list[left] = list[right];
-            list[right] = temp;
+            //sort right subarray
+            Sort(list, right + 1, end);
+
         }
     }
 }
